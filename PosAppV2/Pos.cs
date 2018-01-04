@@ -7,17 +7,21 @@ namespace PosAppV2
     {
         private List<Product> products = new List<Product>();
         private Dictionary<int, BoughtItem> dictionaryBoughtItem = new Dictionary<int, BoughtItem>();
-        private Dictionary<int, int> dictionaryStocks = new Dictionary<int, int>();
+        private Dictionary< string,int> dictionaryStocks = new Dictionary<string,int>();
         private string _inputErrorMessage;
         private string _boughtItemTableHeader;
         private string _productTableHeader;
         private string _tableLine;
+        private string _stockTableHeader;
+
         private enum Action
         {
             IsAdmin,
             IsCustomer,
             Start,
+            ViewAllStock,
             Exit
+            
         }
         public void StartApp()
         {
@@ -43,18 +47,24 @@ namespace PosAppV2
 
             var option =
                 (Action)
-                TakeUserInput("Enter 0 for Add Product 1 for view  all product  2 for start ",
+                TakeUserInput("Enter 0 for Add Product 1 for view product  2 for start, 3 for view Stocks ",
                     _inputErrorMessage);
 
             if (Action.IsAdmin.Equals(option))
             {
 
                 AddProduct();
+                //need stock update and this time only add new Stock
             }
             if (Action.IsCustomer.Equals(option))
             {
 
                 this.GetAllProduct();
+            }
+            if (Action.ViewAllStock.Equals(option))
+            {
+
+                this.GetAllStocks();
             }
             if (Action.Start.Equals(option))
             {
@@ -68,6 +78,19 @@ namespace PosAppV2
 
             }
 
+        }
+
+        private void GetAllStocks()
+        {
+            MessageDisplay(_stockTableHeader);
+            MessageDisplay(_tableLine);
+            foreach (var stock in dictionaryStocks)
+            {  
+                MessageDisplay("\t"+stock.Key+"\t"+stock.Value+"\n");
+               // MessageDisplay(stock.Value);
+                
+            }
+          
         }
 
         private void GoForCustomer()
@@ -126,6 +149,13 @@ namespace PosAppV2
             return product;
 
         }
+        /*private Product GetProductByKey(string key)
+        {
+            var product = products[key];
+            return product;
+
+        }*/
+
 
         private BoughtItem GetBoughtItemById(int id)
         {
@@ -217,9 +247,12 @@ namespace PosAppV2
                 product.ProductName = TakeInputString(hints);
                 hints = "Enter Price ";
                 product.ProductPrice = TakeUserInput(hints, _inputErrorMessage);
-                //  product.Quantity = TakeUserInput("Enter qty", _inputErrorMessage);
+                var qty = TakeUserInput("Enter qty for stock", _inputErrorMessage);
                 products.Add(product);
                 MessageDisplay("successfully add an item\n");
+               // var pro = GetProductById(id);
+                this.AddStock(product.ProductName, qty);
+                 //add  new stock
                 return true;
 
             }
@@ -230,6 +263,24 @@ namespace PosAppV2
             }
 
         }
+
+        private void AddStock( string key,int qty)
+        {
+           
+             dictionaryStocks.Add(key, qty);
+             MessageDisplay("Stock Added successfully\n");
+
+        }
+        private void StockUpdate(string key, int qty)
+        {
+            if (dictionaryStocks.ContainsKey(key))
+                //myDictionary[myKey] = myNewValue;
+                dictionaryStocks[key] = qty;
+                MessageDisplay("Update Enventory\n");
+
+
+        }
+
 
 
         /*private void AddOrUpdateEnventoryEntry(int id, int quantity)
@@ -269,6 +320,10 @@ namespace PosAppV2
         private void MessageDisplay(string msg)
         {
             System.Console.Write(msg);
+        }
+        private void MessageDisplay(int value)
+        {
+            System.Console.Write(value);
         }
 
         private void ErrorMassage(string value = "")
@@ -349,7 +404,7 @@ namespace PosAppV2
             //dictionaryStocks
             foreach (var product in products)
             {
-                dictionaryStocks.Add(product.Id, 10);
+                dictionaryStocks.Add(product.ProductName, 20);
             }
 
 
@@ -358,6 +413,7 @@ namespace PosAppV2
             _boughtItemTableHeader = "\t" + "ID" + "\t" + "Title" + "\t" + "Price" + "\t" + "Qunatity" + "\t" + "\n";
             _productTableHeader = "\t" + "ID" + "\t" + "Title" + "\t" + "Price" + "\t" + "Qunatity " + "Total" + "\t" + "\n";
             _tableLine = "--------------------------------------------------------------\n";
+            _stockTableHeader = "\t" + "Title" + "\t" + "Quantity" + "\t" +"\n";
 
         }
 
