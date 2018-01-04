@@ -6,7 +6,9 @@ namespace PosAppV2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+          //Console.WriteLine("Hello World!");
+          Pos c =  new Pos();
+            c.StartApp();
         }
     }
 }

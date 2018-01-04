@@ -1,0 +1,11 @@
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\bin\Debug\netcoreapp2.0\PosAppV2.deps.json
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\bin\Debug\netcoreapp2.0\PosAppV2.runtimeconfig.json
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\bin\Debug\netcoreapp2.0\PosAppV2.runtimeconfig.dev.json
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\bin\Debug\netcoreapp2.0\PosAppV2.dll
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\bin\Debug\netcoreapp2.0\PosAppV2.pdb
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\obj\Debug\netcoreapp2.0\PosAppV2.csprojResolveAssemblyReference.cache
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\obj\Debug\netcoreapp2.0\PosAppV2.csproj.CoreCompileInputs.cache
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\obj\Debug\netcoreapp2.0\PosAppV2.AssemblyInfoInputs.cache
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\obj\Debug\netcoreapp2.0\PosAppV2.AssemblyInfo.cs
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\obj\Debug\netcoreapp2.0\PosAppV2.dll
+C:\Users\siraj\Source\Repos\PosAppV2\PosAppV2\obj\Debug\netcoreapp2.0\PosAppV2.pdb
