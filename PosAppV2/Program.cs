@@ -8,6 +8,7 @@ namespace PosAppV2
         {
           //Console.WriteLine("Hello World!");
           Pos c =  new Pos();
+          
             c.StartApp();
         }
     }
