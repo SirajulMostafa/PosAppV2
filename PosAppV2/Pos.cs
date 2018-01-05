@@ -23,7 +23,6 @@ namespace PosAppV2
             Yes,
             No,
             Start,
-            Buy,
             StockUpdate,
             Chechout
             
@@ -88,13 +87,13 @@ namespace PosAppV2
 
         private void UpdateStockQty()
         {
-            GetAllStocks();
+           // GetAllStocks();
             var key = TakeUserInput("Enter stock key :  ");
             if (IsStockKeyExist(key))
             {
                 var qty = TakeUserInput("Enter Stock Quantity :", _inputErrorMessage);
                 StockUpdate(key, qty);
-                var action = TakeUserInput("Enter 0 for Continue  or press enter for option ", _inputErrorMessage);
+                var action = (Action)TakeUserInput("Enter 0 for Continue  or press any  key for option ", _inputErrorMessage);
                 if (action.Equals(Action.Yes))
                 {
                     UpdateStockQty();
@@ -143,34 +142,13 @@ namespace PosAppV2
 
                 switch (option)
                 {
+                    case Action.No:
+                        BuyProduct();
+                        GoForCustomer();
+                        break;
                     case Action.Start:
                         AdminOrCustomer();
-                        break;
-                    case Action.Chechout:
-                            GetAllBoughtItem();
-                            AdminOrCustomer();
-                        break;
-                    case Action.No:
-                        GetAllProduct();
-
-                        var id = TakeUserInput("Enter Product ID \n ", _inputErrorMessage);
-
-                        if (IsProductIdExist(id))
-                        {
-                            var product = GetProductById(id);
-                            var stockKey = product.Id;
-                            if (IsStockKeyExist(stockKey))
-                            {
-                                var stockQuantity = GetStockQuantityByKey(stockKey);
-                                if (IsQuantityAvailable(stockQuantity))
-                                {
-                                    UpdateStockAfterTransaction(stockKey, stockQuantity);
-                                    BoughtItemAddOrUpdate(id, _userInputQuantity);
-                                }    
-
-                            }
-                        }
-                        continue;
+                        break;          
                    
                     default:
                         MessageDisplay("!Invalid option try again!\n");
@@ -178,6 +156,31 @@ namespace PosAppV2
                 }
                 break;
             }
+        }
+
+        private void BuyProduct()
+        {
+
+            GetAllProduct();
+
+            var id = TakeUserInput("Enter Product ID \n ", _inputErrorMessage);
+
+            if (IsProductIdExist(id))
+            {
+                var product = GetProductById(id);
+                var stockKey = product.Id;
+                if (IsStockKeyExist(stockKey))
+                {
+                    var stockQuantity = GetStockQuantityByKey(stockKey);
+                    if (IsQuantityAvailable(stockQuantity))
+                    {
+                        UpdateStockAfterTransaction(stockKey, stockQuantity);
+                        BoughtItemAddOrUpdate(id, _userInputQuantity);
+                    }
+
+                }
+            }
+            ConfirmForCheckoutOrBuy();
         }
 
         private void BoughtItemAddOrUpdate(int key,int quantity)
@@ -267,20 +270,27 @@ namespace PosAppV2
 
 
 
-        private bool ConfirmForCheckoutOrBuy(int value)
+        private void ConfirmForCheckoutOrBuy()
         {
             var hints = "Enter 0 for buy ,  1 for checkout";
-            var input = TakeUserInput(hints, _inputErrorMessage);
+            var option = (Action)TakeUserInput(hints, _inputErrorMessage);
 
-            if (input.Equals(0))
+            switch (option)
             {
-                return true;
+                case Action.Yes:
+                    BuyProduct();
+                    break;
+                case Action.No:
+                    GetAllBoughtItem();
+
+                    break;
+                   
+                 default:
+                    ErrorMassage();
+                    ConfirmForCheckoutOrBuy();
+                    break;
             }
-            if (input.Equals(1))
-            {
-                return false;
-            }
-            return ConfirmForCheckoutOrBuy(value);
+           
 
         }
         private void UpdateStockAfterTransaction(int key ,int quantity)
@@ -339,9 +349,12 @@ namespace PosAppV2
         private void StockUpdate(int key, int qty)
         {
             if (dictionaryStocks.ContainsKey(key))
-                //myDictionary[myKey] = myNewValue;
-                dictionaryStocks[key] = qty;
-                MessageDisplay("Update Stock \n");       
+            {
+                dictionaryStocks[key] += qty;
+                MessageDisplay("Update Stock \n");
+
+
+            }
 
         }
 
@@ -437,7 +450,7 @@ namespace PosAppV2
             _productTableHeader = "\t" + "ID" + "\t" + "Title" + "\t" + "Price" + "\t" + "Qunatity " + "Total" + "\t" + "\n";
             _tableLine = "--------------------------------------------------------------\n";
             _stockTableHeader = "\t" + "Title" + "\t" + "Quantity" + "\t" +"\n";
-            _customerInstraction = "Enter 1 for buy, 2 for start , 6 for  for checkout";
+            _customerInstraction = "Enter 1 for buy, 2 for Restart ";
             _adminInstraction= " 0.  Add Product \n 1. view product \n 2. Restart\n 3. Stock update\n";
 
         }
