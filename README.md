@@ -625,3 +625,241 @@ namespace PosAppV2
     }
 }
  ```
+ ```
+ # Finall  output:
+ Enter '0' For Admin '1' For Customer 0
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 0
+ Enter Product ID= 2
+  Invalid Request Fount  id is Already Exist try another id
+
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 0
+ Enter Product ID= 78
+ Enter Product title= Jens
+  Invalid Request Fount   Name  Already Exist try another name
+
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 1
+         ID      Title   Price  
+ --------------------------------------------------------------
+         |3|     |Shirt| |1000|
+ --------------------------------------------------------------
+         |1|     |Pent|  |400|
+ --------------------------------------------------------------
+         |2|     |Soap|  |300|
+ --------------------------------------------------------------
+         |4|     |Socks| |394|
+ --------------------------------------------------------------
+         |5|     |Jens|  |404|
+ --------------------------------------------------------------
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 45
+  Invalid Request Fount
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 0
+ Enter Product ID= 454
+ Enter Product title= Mobile
+ Enter Price 78478
+ Enter qty for stock100
+ successfully add an item
+  Added  new stock successfully
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 3
+         ID      Title   Quantity
+ --------------------------------------------------------------
+         |3|     |Shirt| |20|
+ --------------------------------------------------------------
+         |1|     |Pent|  |20|
+ --------------------------------------------------------------
+         |2|     |Soap|  |20|
+ --------------------------------------------------------------
+         |4|     |Socks| |20|
+ --------------------------------------------------------------
+         |5|     |Jens|  |20|
+ --------------------------------------------------------------
+         |454| |Mobile|  |  100|
+ Enter stock key :  1
+ Enter Stock Quantity : 78
+ Update Stock
+ Enter 0 for Continue  or press any  key for option 0
+ Enter stock key :  4
+ Enter Stock Quantity : 78
+ Update Stock
+ Enter 0 for Continue  or press any  key for option 0
+ Enter stock key :  4
+ Enter Stock Quantity : 400
+ Update Stock
+ Enter 0 for Continue  or press any  key for option 2
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 3
+         ID      Title   Quantity
+ --------------------------------------------------------------
+         |3|     |Shirt| |20|
+ --------------------------------------------------------------
+         |1|     |Pent|  |98|
+ --------------------------------------------------------------
+         |2|     |Soap|  |20|
+ --------------------------------------------------------------
+         |4|     |Socks| |498|
+ --------------------------------------------------------------
+         |5|     |Jens|  |20|
+ --------------------------------------------------------------
+         |454| |Mobile|  |  100|
+ Enter stock key :  5
+ Enter Stock Quantity : 5
+ Update Stock
+ Enter 0 for Continue  or press any  key for option 0
+ Enter stock key :  454
+ Enter Stock Quantity : 400
+ Update Stock
+ Enter 0 for Continue  or press any  key for option 2
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 2
+ Enter '0' For Admin '1' For Customer 1
+ Enter 1 for buy, 2 for Restart 1
+         ID      Title   Price  
+ --------------------------------------------------------------
+         |3|     |Shirt| |1000|
+ --------------------------------------------------------------
+         |1|     |Pent|  |400|
+ --------------------------------------------------------------
+         |2|     |Soap|  |300|
+ --------------------------------------------------------------
+         |4|     |Socks| |394|
+ --------------------------------------------------------------
+         |5|     |Jens|  |404|
+ --------------------------------------------------------------
+         |454| |Mobile|  |  78478|
+ --------------------------------------------------------------
+ Enter Product ID
+  454
+ Enter Quantity 400
+ Stock Update After Transaction
+ Added New Buy item
+ Enter 0 for buy ,  1 for checkout0
+         ID      Title   Price  
+ --------------------------------------------------------------
+         |3|     |Shirt| |1000|
+ --------------------------------------------------------------
+         |1|     |Pent|  |400|
+ --------------------------------------------------------------
+         |2|     |Soap|  |300|
+ --------------------------------------------------------------
+         |4|     |Socks| |394|
+ --------------------------------------------------------------
+         |5|     |Jens|  |404|
+ --------------------------------------------------------------
+         |454| |Mobile|  |  78478|
+ --------------------------------------------------------------
+ Enter Product ID
+  4
+ Enter Quantity 10000000000
+ Enter An Intager Number Enter Quantity 1000
+ Quantity is not available
+ Enter Quantity 45
+ Stock Update After Transaction
+ Added New Buy item
+ Enter 0 for buy ,  1 for checkout0
+         ID      Title   Price  
+ --------------------------------------------------------------
+         |3|     |Shirt| |1000|
+ --------------------------------------------------------------
+         |1|     |Pent|  |400|
+ --------------------------------------------------------------
+         |2|     |Soap|  |300|
+ --------------------------------------------------------------
+         |4|     |Socks| |394|
+ --------------------------------------------------------------
+         |5|     |Jens|  |404|
+ --------------------------------------------------------------
+         |454| |Mobile|  |  78478|
+ --------------------------------------------------------------
+ Enter Product ID
+  454
+ Enter Quantity 45
+ Stock Update After Transaction
+ Update BouthItem
+ Enter 0 for buy ,  1 for checkout1
+         ID      Title   Price   Total
+ --------------------------------------------------------------
+         |454| |Mobile|  |  78478| |445|   |34922710|
+ --------------------------------------------------------------
+         |4|     |Socks| |394|   |45|    |17730|
+ --------------------------------------------------------------
+ Grand Total= 34940440
+ Enter 1 for buy, 2 for Restart 2
+ Enter '0' For Admin '1' For Customer 0
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 3
+         ID      Title   Quantity
+ --------------------------------------------------------------
+         |3|     |Shirt| |20|
+ --------------------------------------------------------------
+         |1|     |Pent|  |98|
+ --------------------------------------------------------------
+         |2|     |Soap|  |20|
+ --------------------------------------------------------------
+         |4|     |Socks| |453|
+ --------------------------------------------------------------
+         |5|     |Jens|  |25|
+ --------------------------------------------------------------
+         |454|   |Mobile||55|
+ Enter stock key :  3
+ Enter Stock Quantity : 45
+ Update Stock
+ Enter 0 for Continue  or press any  key for option 0
+ Enter stock key :  4
+ Enter Stock Quantity : 100
+ Update Stock
+ Enter 0 for Continue  or press any  key for option 2
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
+ 1
+         ID      Title   Price  
+ --------------------------------------------------------------
+         |3|     |Shirt| |1000|
+ --------------------------------------------------------------
+         |1|     |Pent|  |400|
+ --------------------------------------------------------------
+         |2|     |Soap|  |300|
+ --------------------------------------------------------------
+         |4|     |Socks| |394|
+ --------------------------------------------------------------
+         |5|     |Jens|  |404|
+ --------------------------------------------------------------
+         |454|  |Mobile| |78478|
+ --------------------------------------------------------------
+  0.  Add Product
+  1. view product
+  2. Restart
+  3. Stock update
