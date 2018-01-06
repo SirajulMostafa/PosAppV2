@@ -81,10 +81,11 @@ Next add an admin part to the application. The admin will be able to update stoc
 So the initial screen of the application should be:
 
    For Admin press 0, For customer press 1
-   - Product class
+  Product class
 
 
-* class Product
+ ```csharp
+  class Product
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
@@ -623,3 +624,4 @@ namespace PosAppV2
 
     }
 }
+ ```
