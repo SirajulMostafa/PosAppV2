@@ -81,24 +81,26 @@ Next add an admin part to the application. The admin will be able to update stoc
 So the initial screen of the application should be:
 
    For Admin press 0, For customer press 1
-   -Product class
-*class Product
+   - Product class
+
+
+* class Product
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
         public int ProductPrice{ get; set; }
     }
-*
--Selling Information class
-*class BoughtItem
+
+//Selling Information class
+class BoughtItem
     {
         public int Id { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
     }
-    *
+
 -main Method
-*
+
     class Program
     {
         static void Main(string[] args)
