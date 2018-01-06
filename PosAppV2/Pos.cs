@@ -5,10 +5,9 @@ namespace PosAppV2
 {
     class Pos
     {
-        
         private List<Product> products = new List<Product>();
         private Dictionary<int, BoughtItem> dictionaryBoughtItem = new Dictionary<int, BoughtItem>();
-        private Dictionary< int,int> dictionaryStocks = new Dictionary<int,int>();
+        private Dictionary<int, int> dictionaryStocks = new Dictionary<int, int>();
         private string _inputErrorMessage;
         private string _boughtItemTableHeader;
         private string _productTableHeader;
@@ -23,9 +22,7 @@ namespace PosAppV2
             Yes,
             No,
             Start,
-            StockUpdate,
-            Chechout
-            
+            StockUpdate
         }
         public void StartApp()
         {
@@ -47,7 +44,7 @@ namespace PosAppV2
                     GoForCustomer();
                     break;
                 default:
-                    MessageDisplay("---- Invalid Request Try Again----\n");
+                    ErrorMassage();
                     AdminOrCustomer();
                     break;
             }
@@ -57,29 +54,30 @@ namespace PosAppV2
         {
             while (true)
             {
-                var option = (Action) TakeUserInput(_adminInstraction, _inputErrorMessage);
+                var option = (Action)TakeUserInput(_adminInstraction, _inputErrorMessage);
 
                 switch (option)
                 {
-                    case Action.Yes:                    
-                            AddProduct();
-                            break;                     
-                    case Action.No:                      
-                            GetAllProduct();
-                            break;                    
+                    case Action.Yes:
+                        AddProduct();
+                        break;
+                    case Action.No:
+                        GetAllProduct();
+                        break;
                     case Action.Start:
                         AdminOrCustomer();
                         break;
                     case Action.StockUpdate:
-                        GetAllStocks();
+                        // GetAllStocks();
+                        GetAllStockWithProductName();
                         UpdateStockQty();
                         break;
 
                     default:
-                        MessageDisplay("Invalid operaion try again\n");
-                            continue;
+                        ErrorMassage();
+                        continue;
 
-                        
+
                 }
                 //break;
             }
@@ -87,11 +85,11 @@ namespace PosAppV2
 
         private void UpdateStockQty()
         {
-           // GetAllStocks();
+            // GetAllStocks();
             var key = TakeUserInput("Enter stock key :  ");
             if (IsStockKeyExist(key))
             {
-                var qty = TakeUserInput("Enter Stock Quantity :", _inputErrorMessage);
+                var qty = TakeUserInput("Enter Stock Quantity : ", _inputErrorMessage);
                 StockUpdate(key, qty);
                 var action = (Action)TakeUserInput("Enter 0 for Continue  or press any  key for option ", _inputErrorMessage);
                 if (action.Equals(Action.Yes))
@@ -103,10 +101,26 @@ namespace PosAppV2
             {
                 ErrorMassage();
                 UpdateStockQty();
-        
-            }
-           
 
+            }
+
+
+
+        }
+
+        void GetAllStockWithProductName()
+        {
+             MessageDisplay(_stockTableHeader);
+            foreach (KeyValuePair<int, int> stockKeyValuePair in dictionaryStocks)
+            {
+                var qty = stockKeyValuePair.Value;
+                var stockKey = stockKeyValuePair.Key;
+                var product = GetProductById(stockKey);
+             
+                MessageDisplay(_tableLine);
+                Console.WriteLine(" \t|{0}|\t|{1}|\t|{2}|", stockKey, product.ProductName, qty);
+
+            }
 
         }
 
@@ -115,14 +129,14 @@ namespace PosAppV2
             MessageDisplay(_stockTableHeader);
             MessageDisplay(_tableLine);
             foreach (var stock in dictionaryStocks)
-            {  
-                MessageDisplay("\t"+stock.Key+"\t"+stock.Value+"\n");
-                
+            {
+                MessageDisplay("\t" + stock.Key + "\t" + stock.Value + "\n");
+
             }
-          
+
         }
 
-        private  int GetStockQuantityByKey(int key)
+        private int GetStockQuantityByKey(int key)
         {
             if (dictionaryStocks.ContainsKey(key))
             {
@@ -138,7 +152,7 @@ namespace PosAppV2
         {
             while (true)
             {
-                var option = (Action) TakeUserInput(_customerInstraction, _inputErrorMessage);
+                var option = (Action)TakeUserInput(_customerInstraction, _inputErrorMessage);
 
                 switch (option)
                 {
@@ -148,11 +162,11 @@ namespace PosAppV2
                         break;
                     case Action.Start:
                         AdminOrCustomer();
-                        break;          
-                   
+                        break;
+
                     default:
-                        MessageDisplay("!Invalid option try again!\n");
-                        continue;                     
+                        ErrorMassage();
+                        continue;
                 }
                 break;
             }
@@ -183,31 +197,31 @@ namespace PosAppV2
             ConfirmForCheckoutOrBuy();
         }
 
-        private void BoughtItemAddOrUpdate(int key,int quantity)
+        private void BoughtItemAddOrUpdate(int key, int quantity)
         {
             if (IsBoughtItemKeyExist(key))
             {
-                BoughtItemUpdate(key,quantity);
+                BoughtItemUpdate(key, quantity);
                 MessageDisplay("Update BouthItem\n");
             }
             else
             {
-                AddBoughtItem(key,quantity);
-                MessageDisplay("Added New Buy item\n");
+                AddBoughtItem(key, quantity);
+
             }
         }
 
-        private void BoughtItemUpdate(int key,int quantity)
+        private void BoughtItemUpdate(int key, int quantity)
         {
-            
-                var boughtItem= GetBoughtItemById(key);
-                var prevQuantity = boughtItem.Quantity;
-                boughtItem.Quantity= prevQuantity + quantity;        
-                dictionaryBoughtItem[key] =boughtItem ;        
+
+            var boughtItem = GetBoughtItemById(key);
+            var prevQuantity = boughtItem.Quantity;
+            boughtItem.Quantity = prevQuantity + quantity;
+            dictionaryBoughtItem[key] = boughtItem;
 
 
         }
-        
+
 
         private bool IsQuantityAvailable(int qty)
         {
@@ -218,7 +232,7 @@ namespace PosAppV2
                 if (inputQty <= qty)
                 {
                     _userInputQuantity = inputQty;
-                   
+
                     return true;
                 }
                 MessageDisplay("Quantity is not available \n");
@@ -228,45 +242,10 @@ namespace PosAppV2
             return false;
         }
 
-        
-
-        private Product GetProductById(int id)
-        {
-            var product= products.Find(p => p.Id.Equals(id));
-            return product;
-        }
-       
-
-
-        private BoughtItem GetBoughtItemById(int id)
-        {
-            var boughtItem = dictionaryBoughtItem[id];
-            return boughtItem;
-
-        }
-
-        private bool IsProductIdExist(int id)
-        {
-            return products.Exists(p => p.Id.Equals(id)) ;
-        }
-        private bool IsProductNameExist(string productname)
-        {
-            return products.Exists(p => p.ProductName.Equals(productname));
-        }
-
-        private bool IsStockKeyExist(int key)
-        {
-            return dictionaryStocks.ContainsKey(key);
-        }
 
 
 
 
-
-        private bool IsBoughtItemKeyExist(int id)
-        {
-            return dictionaryBoughtItem.ContainsKey(id);
-        }
 
 
 
@@ -284,78 +263,111 @@ namespace PosAppV2
                     GetAllBoughtItem();
 
                     break;
-                   
-                 default:
+
+                default:
                     ErrorMassage();
                     ConfirmForCheckoutOrBuy();
                     break;
             }
-           
+
 
         }
-        private void UpdateStockAfterTransaction(int key ,int quantity)
+        private void UpdateStockAfterTransaction(int key, int quantity)
         {
-            dictionaryStocks[key] =quantity-_userInputQuantity;
+            dictionaryStocks[key] = quantity - _userInputQuantity;
             MessageDisplay("Stock Update After Transaction \n");
-         
+
         }
 
-        private void AddBoughtItem(int key,int quantity)
+        /* private void AddBoughtItem(int key, int quantity)
+         {
+             var product = GetProductById(key);
+             var boughtItem = new BoughtItem
+             {
+                 Id = product.Id,
+                 ProductName = product.ProductName,
+                 ProductPrice = product.ProductPrice,
+                 Quantity = quantity
+             };
+             dictionaryBoughtItem.Add(product.Id, boughtItem);
+             MessageDisplay("Added New Buy item\n");
+
+
+         }*/
+        private void AddBoughtItem(int key, int quantity)
         {
             var product = GetProductById(key);
             var boughtItem = new BoughtItem
             {
                 Id = product.Id,
-                ProductName = product.ProductName,
-                ProductPrice = product.ProductPrice,
+                /*ProductName = product.ProductName,
+                ProductPrice = product.ProductPrice,*/
+                Product = product,
                 Quantity = quantity
             };
-            dictionaryBoughtItem.Add(product.Id,boughtItem);
 
-           
+            dictionaryBoughtItem.Add(product.Id, boughtItem);
+            MessageDisplay("Added New Buy item\n");
+
+
         }
 
         private void AddProduct()
         {
-                var id = TakeUserInput("Enter Product ID= ", _inputErrorMessage);
-                if (!IsProductIdExist(id))
+            var id = TakeUserInput("Enter Product ID= ", _inputErrorMessage);
+            if (!IsProductIdExist(id))
+            {
+                var productnameHints = "Enter Product title= ";
+                var productname = TakeInputString(productnameHints);
+                if (!IsProductNameExist(productname))
                 {
-                    var productnameHints = "Enter Product title= ";
-                    var productname = TakeInputString(productnameHints);
-                    if (!IsProductNameExist(productname))
-                    {
-                        var hints = "Enter Price ";
-                        var price = TakeUserInput(hints, _inputErrorMessage);
-                        var product = new Product{Id = id,ProductName = productname, ProductPrice = price};
-                        var qty = TakeUserInput("Enter qty for stock", _inputErrorMessage);
-                        products.Add(product);
-                        MessageDisplay("successfully add an item\n");
-                        AddStock(product.Id, qty);         
-                    }
-                    else
-                        ErrorMassage(" Name  Already Exist try another name\n");
+                    var hints = "Enter Price ";
+                    var price = TakeUserInput(hints, _inputErrorMessage);
+                    var product = new Product { Id = id, ProductName = productname, ProductPrice = price };
+                    var qty = TakeUserInput("Enter qty for stock", _inputErrorMessage);
+                    products.Add(product);
+                    MessageDisplay("successfully add an item\n");
+                    AddStock(product.Id, qty);
                 }
                 else
-                {
-                    ErrorMassage("id is Already Exist try another id\n");
-                }
+                    ErrorMassage(" Name  Already Exist try another name\n");
+            }
+            else
+            {
+                ErrorMassage("id is Already Exist try another id\n");
+            }
         }
 
-        private void AddStock( int key,int qty)
+        private void AddStock(int key, int qty)
         {
-             dictionaryStocks.Add(key, qty);
-             MessageDisplay(" Added  new stock successfully\n");
+            dictionaryStocks.Add(key, qty);
+            MessageDisplay(" Added  new stock successfully\n");
         }
         private void StockUpdate(int key, int qty)
         {
-            if (dictionaryStocks.ContainsKey(key))
-            {
-                dictionaryStocks[key] += qty;
-                MessageDisplay("Update Stock \n");
+            if (!dictionaryStocks.ContainsKey(key)) return;
+            dictionaryStocks[key] += qty;
+            MessageDisplay("Update Stock \n");
+        }
 
 
-            }
+        private bool IsProductIdExist(int id)
+        {
+            return products.Exists(p => p.Id.Equals(id));
+        }
+        private bool IsProductNameExist(string productname)
+        {
+            return products.Exists(p => p.ProductName.Equals(productname));
+        }
 
+        private bool IsStockKeyExist(int key)
+        {
+            return dictionaryStocks.ContainsKey(key);
+        }
+
+        private bool IsBoughtItemKeyExist(int id)
+        {
+            return dictionaryBoughtItem.ContainsKey(id);
         }
 
 
@@ -370,7 +382,7 @@ namespace PosAppV2
 
         private void ErrorMassage(string value = "")
         {
-            MessageDisplay(" Invalid Request Fount  " + value+"\n");
+            MessageDisplay(" Invalid Request Fount  " + value + "\n");
         }
 
         private string TakeInputString(string hints = null)
@@ -390,11 +402,26 @@ namespace PosAppV2
             }
             catch (Exception ex)
             {
-               MessageDisplay(errorMessage);
+                MessageDisplay(errorMessage);
                 return TakeUserInput(inputPrompt, errorMessage);
             }
         }
 
+
+        private Product GetProductById(int id)
+        {
+            var product = products.Find(p => p.Id.Equals(id));
+            return product;
+        }
+
+
+
+        private BoughtItem GetBoughtItemById(int id)
+        {
+            var boughtItem = dictionaryBoughtItem[id];
+            return boughtItem;
+
+        }
 
         private void GetAllProduct()
         {
@@ -409,17 +436,40 @@ namespace PosAppV2
         }
 
 
-        private void GetAllBoughtItem()
+        /*private void GetAllBoughtItem()
         {
+            double total = 0;
+            double grandTotal = 0;
             MessageDisplay(_productTableHeader);
             foreach (KeyValuePair<int, BoughtItem> boughtItemKeyValuePair in dictionaryBoughtItem)
             {
-                var boughtItem = boughtItemKeyValuePair.Value;       
+                var boughtItem = boughtItemKeyValuePair.Value;
+                total = boughtItem.Quantity * boughtItem.ProductPrice;
+                grandTotal += total;
+
                 MessageDisplay(_tableLine);
-                Console.WriteLine(" \t|{0}|\t|{1}|\t|{2}|\t|{3}|", boughtItem.Id, boughtItem.ProductName,boughtItem.ProductPrice, boughtItem.Quantity);
+                Console.WriteLine(" \t|{0}|\t|{1}|\t|{2}|\t|{3}|\t|{4}|", boughtItem.Id, boughtItem.ProductName, boughtItem.ProductPrice, boughtItem.Quantity, total);
             }
             MessageDisplay(_tableLine);
-           // this.AdminOrCustomer();
+            MessageDisplay("Grand Total= " + grandTotal+"\n");
+            // this.AdminOrCustomer();
+        }*/
+        private void GetAllBoughtItem()
+        {
+            double total = 0;
+            double grandTotal = 0;
+            MessageDisplay(_productTableHeader);
+            foreach (KeyValuePair<int, BoughtItem> boughtItemKeyValuePair in dictionaryBoughtItem)
+            {
+                var boughtItem = boughtItemKeyValuePair.Value;
+                total = boughtItem.Quantity * boughtItem.Product.ProductPrice;
+                grandTotal += total;
+                MessageDisplay(_tableLine);
+                Console.WriteLine(" \t|{0}|\t|{1}|\t|{2}|\t|{3}|\t|{4}|", boughtItem.Id, boughtItem.Product.ProductName, boughtItem.Product.ProductPrice, boughtItem.Quantity, total);
+            }
+            MessageDisplay(_tableLine);
+            MessageDisplay("Grand Total= " + grandTotal + "\n");
+            // this.AdminOrCustomer();
         }
 
 
@@ -429,7 +479,7 @@ namespace PosAppV2
             var product1 = new Product { Id = 3, ProductName = "Shirt", ProductPrice = 1000 };
             var product2 = new Product { Id = 1, ProductName = "Pent", ProductPrice = 400 };
             var product3 = new Product { Id = 2, ProductName = "Soap", ProductPrice = 300 };
-            var product4 = new Product { Id =4, ProductName = "Socks", ProductPrice = 394 };
+            var product4 = new Product { Id = 4, ProductName = "Socks", ProductPrice = 394 };
             var product5 = new Product { Id = 5, ProductName = "Jens", ProductPrice = 404 };
 
             products.Add(product1);
@@ -449,9 +499,9 @@ namespace PosAppV2
             _boughtItemTableHeader = "\t" + "ID" + "\t" + "Title" + "\t" + "Price" + "\t" + "Qunatity" + "\t" + "\n";
             _productTableHeader = "\t" + "ID" + "\t" + "Title" + "\t" + "Price" + "\t" + "Qunatity " + "Total" + "\t" + "\n";
             _tableLine = "--------------------------------------------------------------\n";
-            _stockTableHeader = "\t" + "Title" + "\t" + "Quantity" + "\t" +"\n";
+            _stockTableHeader = "\t" + "ID" + "\t" + "Title" + "\t" + "Quantity" + "\t" + "\n";
             _customerInstraction = "Enter 1 for buy, 2 for Restart ";
-            _adminInstraction= " 0.  Add Product \n 1. view product \n 2. Restart\n 3. Stock update\n";
+            _adminInstraction = " 0.  Add Product \n 1. view product \n 2. Restart\n 3. Stock update\n";
 
         }
 
